@@ -1,0 +1,16 @@
+{
+  "name": "ai-skills-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lab environment for AI skills training",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}
