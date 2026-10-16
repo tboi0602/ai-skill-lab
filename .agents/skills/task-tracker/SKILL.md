@@ -7,7 +7,7 @@ description: >-
   when completing work, or when asked "đang làm gì", "what are you doing", "hôm nay làm được gì".
 ---
 
-# Task Tracker (@1)
+# Task Tracker (@2)
 
 Purpose:
 - Ensure the AI agent always maintains accurate awareness of the active task.
@@ -21,7 +21,7 @@ Automatically trigger when:
 - Starting a new work session or switching tasks.
 - The user says: *"Làm task ZETA-xxx"*, *"Work on ZETA-xxx"*, *"Bắt đầu task..."*.
 - Encountering new bugs, technical questions, or unexpected scope changes during coding.
-- Completing a task or preparing a Pull Request.
+- Completing code in a task or preparing a Pull Request.
 - The user asks: *"Đang làm gì?"*, *"Hôm nay làm được gì?"*, *"Daily standup"*, *"Status update"*.
 
 ---
@@ -44,17 +44,17 @@ Automatically trigger when:
    ```markdown
    # [<IDENTIFIER>-<sequence_id>] <Task Title>
    - **Plane ID**: <IDENTIFIER>-<sequence_id>
-   - **Ngày bắt đầu**: YYYY-MM-DD HH:mm
-   - **Mục tiêu**: <Summary of desired outcome>
-   - **Trạng thái**: In Progress
-   Tracked-By: task-tracker@1
+   - **Start Date**: YYYY-MM-DD HH:mm
+   - **Goal**: <Summary of desired outcome>
+   - **Status**: In Progress
+   Tracked-By: task-tracker@2
 
-   ## Việc cần làm
+   ## Tasks
    - [ ] <Subtask 1>
    - [ ] <Subtask 2>
 
-   ## Phát sinh
-   <!-- Incidental notes: - HH:MM — <item> — <xong/chưa> -->
+   ## Incidental Notes
+   <!-- Incidental notes: - HH:MM — <item> — <done/open> -->
    ```
 2. Transition the workitem state on Plane to **`In Progress`**.
 
@@ -64,23 +64,29 @@ Automatically trigger when:
   - Workflow:
     1. Print a 1-line summary and **prompt the user for confirmation first** (*"Discovered issue X... Do you want me to create a sub-task on Plane?"* $\rightarrow$ prevents Plane pollution).
     2. Upon user approval: Create a sub-task on Plane with `parent` = current task UUID, assigned to yourself, title with repo prefix (e.g., `[warehouse-app] Fix cancel button crash`).
-    3. The sub-task description MUST end with:
+    3. Initial sub-task state upon creation: **`In Progress`**.
+    4. The sub-task description MUST end with:
        ```text
-       — tạo bởi task-tracker@1
+       — created by task-tracker@2
        ```
 - **Category B: Incidental / Scratch Items (Local In-Repo Tracking Only)**:
   - Criteria: Minor investigations, quick fixes $< 15$ minutes, notes, questions for lead.
-  - Workflow: Record directly under the `## Phát sinh` section in the task file:
-    `- HH:MM — <item> — <xong/chưa>` (Do NOT create a Plane issue).
+  - Workflow: Record directly under the `## Incidental Notes` section in the task file:
+    `- HH:MM — <item> — <done/open>` (Do NOT create a Plane issue).
 
-### Rule 4: Task Completion
-1. Move the task tracking file from `management/in-progress/<slug>.md` to `management/done/<slug>.md`.
-2. Transition Plane state to **`In Review`** (if PR is created) or **`Done`** (if merged/finalized).
-3. If outstanding sub-tasks remain incomplete $\rightarrow$ keep their status unchanged and alert the user.
+### Rule 4: Task Completion & Plane State Constraints
+1. **NEVER MANUALLY TRANSITION TO `Done` / `Completed`**:
+   - After completing implementation, the main task and all sub-tasks on Plane **MUST REMAIN in `In Progress` status**.
+   - The AI agent is strictly forbidden from changing the Plane status to `Done` or `Completed`.
+2. **DO NOT TRANSITION TO `In Review`**:
+   - When a Pull Request is opened, the Zeta CI/CD automation bot automatically handles the status transition to `In Review`.
+   - The AI agent must not interfere or modify the status to `In Review`.
+3. **Local Tracking File Lifecycle**:
+   - The in-repo tracking file is moved from `management/in-progress/<slug>.md` to `management/done/<slug>.md` only after the user explicitly confirms the task is completely finished.
 
-### Rule 5: Daily Standup Summary ("Hôm nay làm được gì?")
+### Rule 5: Daily Standup Summary ("What did you do today?")
 When requested, synthesize data from `management/done/` and `management/in-progress/`:
-- **Completed Tasks**: [ID] Title (PR #... / Done).
+- **Completed Tasks**: [ID] Title (In Review / PR opened).
 - **In-Progress Tasks**: [ID] Title (Progress: x%).
 - **Sub-tasks & Incidental Findings**: Plane sub-tasks created, local incidental notes.
 - **Blockers / Open Questions**: (if any).
@@ -90,9 +96,9 @@ When requested, synthesize data from `management/done/` and `management/in-progr
 ## 3. Required Verification Marker (Proof of Skill Usage)
 1. Inside the in-repo task file (`management/in-progress/<slug>.md`):
    ```markdown
-   Tracked-By: task-tracker@1
+   Tracked-By: task-tracker@2
    ```
 2. At the end of every created Plane sub-task description:
    ```text
-   — tạo bởi task-tracker@1
+   — created by task-tracker@2
    ```

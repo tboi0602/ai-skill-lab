@@ -4,6 +4,7 @@ import type { Operator } from '../types/calculator';
 export type KeypadCallbacks = {
   onInputDigit: (digit: string) => void;
   onInputDecimal: () => void;
+  onInputPi: () => void;
   onChooseOperator: (operator: Operator) => void;
   onCompute: () => void;
   onClear: () => void;
@@ -18,6 +19,8 @@ export const resolveKeypadAction = (
       return () => callbacks.onInputDigit(btn.value);
     case 'decimal':
       return callbacks.onInputDecimal;
+    case 'pi':
+      return callbacks.onInputPi;
     case 'operator':
       return () => callbacks.onChooseOperator(btn.value);
     case 'compute':

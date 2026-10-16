@@ -6,10 +6,14 @@ export { CalculatorKeypad } from './components/CalculatorKeypad';
 export type { CalculatorKeypadProps } from './components/CalculatorKeypad';
 export { CalculatorButton } from './components/CalculatorButton';
 export type { CalculatorButtonProps } from './components/CalculatorButton';
+export { App } from './App';
+export type { AppProps } from './App';
 
 export { useCalculator } from './hooks/useCalculator';
 
 export { calculateResult } from './utils/calculateResult';
+export { computePower } from './utils/computePower';
+export { handlePiInput } from './utils/handlePiInput';
 export { formatDisplayNumber } from './utils/formatDisplayNumber';
 export { calculatorReducer } from './utils/calculatorReducer';
 export { handleDigitInput } from './utils/handleDigitInput';

@@ -8,6 +8,7 @@ export const useCalculator = () => {
 
   const inputDigit = (digit: string) => dispatch({ type: 'INPUT_DIGIT', payload: digit });
   const inputDecimal = () => dispatch({ type: 'INPUT_DECIMAL' });
+  const inputPi = () => dispatch({ type: 'INPUT_PI' });
   const chooseOperator = (operator: Operator) => dispatch({ type: 'CHOOSE_OPERATOR', payload: operator });
   const compute = () => dispatch({ type: 'COMPUTE' });
   const clear = () => dispatch({ type: 'CLEAR' });
@@ -16,6 +17,7 @@ export const useCalculator = () => {
     state,
     inputDigit,
     inputDecimal,
+    inputPi,
     chooseOperator,
     compute,
     clear,
