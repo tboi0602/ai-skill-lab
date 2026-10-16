@@ -13,7 +13,7 @@ export const CalculatorButton: React.FC<CalculatorButtonProps> = ({
   variant = 'number',
   span = 1,
 }) => {
-  const bg = variant === 'operator' ? '#f39c12' : variant === 'action' ? '#e74c3c' : '#34495e';
+  const bg = '#e74c3c';
 
   return (
     <button

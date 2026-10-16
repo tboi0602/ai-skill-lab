@@ -4,6 +4,7 @@ import { handleComputeResult } from './handleComputeResult';
 import { handleDecimalInput } from './handleDecimalInput';
 import { handleDigitInput } from './handleDigitInput';
 import { handleOperatorSelect } from './handleOperatorSelect';
+import { handlePiInput } from './handlePiInput';
 
 export const calculatorReducer = (
   state: CalculatorState,
@@ -14,6 +15,8 @@ export const calculatorReducer = (
       return handleDigitInput(state, action.payload);
     case 'INPUT_DECIMAL':
       return handleDecimalInput(state);
+    case 'INPUT_PI':
+      return handlePiInput(state);
     case 'CHOOSE_OPERATOR':
       return handleOperatorSelect(state, action.payload);
     case 'COMPUTE':

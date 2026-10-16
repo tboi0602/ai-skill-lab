@@ -8,7 +8,7 @@ export type MiniCalculatorProps = {
 };
 
 export const MiniCalculator: React.FC<MiniCalculatorProps> = ({ title = 'Mini Calculator' }) => {
-  const { state, inputDigit, inputDecimal, chooseOperator, compute, clear } = useCalculator();
+  const { state, inputDigit, inputDecimal, inputPi, chooseOperator, compute, clear } = useCalculator();
 
   return (
     <div
@@ -31,6 +31,7 @@ export const MiniCalculator: React.FC<MiniCalculatorProps> = ({ title = 'Mini Ca
       <CalculatorKeypad
         onInputDigit={inputDigit}
         onInputDecimal={inputDecimal}
+        onInputPi={inputPi}
         onChooseOperator={chooseOperator}
         onCompute={compute}
         onClear={clear}
